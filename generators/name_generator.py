@@ -1,7 +1,5 @@
 import random
 
-god_seeds = ["finnish","egyptian","greek","roman","norse"]
-
 # Markov chains from roguebasin!
 class Mdict:
     def __init__(self):

@@ -2,6 +2,7 @@ import random
 
 god_seeds = ["finnish","egyptian","greek","roman","norse"]
 
+# Markov chains from roguebasin!
 class Mdict:
     def __init__(self):
         self.d = {}
@@ -86,6 +87,7 @@ class NameGenerator:
 			return returnlist
 
 def main():
+    # for some fun testing
 	filename = ''.join([random.choice(god_seeds), '_gods'])
 	filename2 = ''.join([random.choice(god_seeds), '_gods'])
 	god_generator = NameGenerator(filename)

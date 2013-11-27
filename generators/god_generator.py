@@ -10,9 +10,6 @@ godnames_dict = {
 	"norse" : "norse_gods"
 }
 
-["finnish_gods","egyptian_gods","greek_gods",
-				 "roman_gods","norse_gods"]
-
 # Gods have elements they control, they are listed here
 # maybe an idea to generate them too?
 

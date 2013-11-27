@@ -1,5 +1,8 @@
 import random
 
+god_seeds = ["finnish","egyptian","greek",
+                 "roman","norse"]
+
 # Markov chains from roguebasin!
 class Mdict:
     def __init__(self):
@@ -86,20 +89,13 @@ class NameGenerator:
 
 def main():
     # for some fun testing
-	filename = ''.join([random.choice(god_seeds), '_gods'])
-	filename2 = ''.join([random.choice(god_seeds), '_gods'])
-	god_generator = NameGenerator(filename)
-	god_generator2 = NameGenerator(filename2)
-	orc_generator = NameGenerator('orcs')
+	god_generator = NameGenerator('egyptian_gods')
 
-	names_count = 10
+	gods = god_generator.give_names(50)
 
-	godnames = god_generator.give_names(names_count)
-	godnames2 = god_generator2.give_names(names_count)
-	orcnames = orc_generator.give_names(50)
 
-	for x in xrange(1,names_count-1):
-		print("The god " + godnames[x] + " is at war with " + godnames2[x])
+	for x in gods:
+		print x
 
 	#for orc in orcnames:
 	#	print orc

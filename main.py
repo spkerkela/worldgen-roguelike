@@ -844,7 +844,7 @@ def render_all():
 	# display names of objects under the mouse
 	libtcod.console_set_default_foreground(panel, libtcod.light_gray)
 	libtcod.console_print_ex(panel,1,0, libtcod.BKGND_NONE, libtcod.LEFT, get_names_under_mouse())
-	libtcod.console_blit(panel,0,0, SCREEN_WIDTH, PANEL_HEIGHT,0,0,PANEL_Y)
+	libtcod.console_blit(panel,0,0, game.screen_width, PANEL_HEIGHT,0,0,PANEL_Y)
 
 def player_move_or_attack(dx, dy):
 	global fov_recompute
@@ -1133,7 +1133,7 @@ def new_game():
 	fighter_component = Fighter(hp=100, defense=9, power=2, xp=0, death_function=player_death)
 	controller = Controller()
 	bag = Container(26)
-	player = Object(SCREEN_WIDTH/2,SCREEN_HEIGHT/2, '@', "Player", libtcod.white, blocks=True, fighter=fighter_component, is_player=True, controller=controller, container=bag)
+	player = Object(game.screen_width/2,game.screen_height/2, '@', "Player", libtcod.white, blocks=True, fighter=fighter_component, is_player=True, controller=controller, container=bag)
 	player.level = 1
 
 	# create the list of game messages and their colors, starts empty

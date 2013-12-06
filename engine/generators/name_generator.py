@@ -1,7 +1,6 @@
 import random
 
-god_seeds = ["finnish","egyptian","greek",
-                 "roman","norse"]
+god_seeds = ["finnish","egyptian","greek", "roman","norse"]
 
 # Markov chains from roguebasin!
 class Mdict:
@@ -62,43 +61,45 @@ class MName:
         return name.capitalize()
 
 class NameGenerator:
-	def __init__(self, names_filename):
-		self.sourcepath = ''.join(['seednames/',names_filename])
-	
-	def give_names(self, n=1):
-		names = []
-		try:
-			with open(self.sourcepath) as f:
-				# gets rid of all whitespace this way
-				content = ''.join(f.read().split())
-				names = content.split(',')
-				f.close()	
-		except IOError, e:
-			print "Cannot open " + self.sourcepath
-			return
-		
-		markov_gen = MName(names)
+    def __init__(self, names_filename):
+        #self.sourcepath = ''.join(['seednames/',names_filename])
+        self.sourcepath = names_filename
+    
+    def new_name(self, n=1):
+        names = []
+        try:
+            with open(self.sourcepath) as f:
+                # gets rid of all whitespace this way
+                content = ''.join(f.read().split())
+                names = content.split(',')
+                f.close()   
+        except IOError, e:
+            print e
+            print "Cannot open " + self.sourcepath
+            return
+        
+        markov_gen = MName(names)
 
-		if n <= 1:
-			return markov_gen.New()
-		else:
-			returnlist = []
-			for x in xrange(1,n):
-				returnlist.append(markov_gen.New().strip())
-			return returnlist
+        if n <= 1:
+            return markov_gen.New()
+        else:
+            returnlist = []
+            for x in xrange(1,n):
+                returnlist.append(markov_gen.New().strip())
+            return returnlist
 
 def main():
     # for some fun testing
-	god_generator = NameGenerator('egyptian_gods')
+    god_generator = NameGenerator('seednames/egyptian_gods')
 
-	gods = god_generator.give_names(50)
+    gods = god_generator.new_name(50)
 
 
-	for x in gods:
-		print x
+    for x in gods:
+        print x
 
-	#for orc in orcnames:
-	#	print orc
+    #for orc in orcnames:
+    #   print orc
 
 if __name__ == '__main__':
-	main()
+    main()

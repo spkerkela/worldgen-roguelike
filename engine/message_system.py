@@ -1,5 +1,5 @@
 
-class MessageSystem():
+class MessageSystem(object):
 	"""A message system for game objects"""
 	def __init__(self):
 		self.receivers = []

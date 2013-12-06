@@ -23,7 +23,7 @@ class GodGenerator:
 		self.name_generator = NameGenerator(godnames_dict[godnames_key])
 
 	def new_god(self):
-		name = self.name_generator.give_names()
+		name = self.name_generator.new_name()
 		powers = random.sample(elements, 3)
 		print "All hail the new god " + name + ", who wields the power of " + powers[0] +", " + powers[1] +" and " + powers[2] + "!"
 

@@ -1,19 +1,39 @@
 import libtcodpy as lbt
 
-class Entity:
-	"""This is a generic game-entity: the player, a monster, an item, the stairs.."""
-	def __init__(self, x, y, char):
+class Entity(object):
+	"""This is a generic game-entity: the player,
+	a monster, an item, the stairs.."""
+	def __init__(self, x, y, z, char, name, color=lbt.white):
 		self.x = x
 		self.y = y
+		self.z = z
 		self.char = char
+		self.name = name
+		self.components = {}
+		self.count = 10
+		self.color = color
 
 	def update(self):
-		pass
-
-	def draw(self, con):
-		lbt.console_set_char(con, self.x, self.y, self.char)
+		# Update components if they have update
+		for c in self.components.values():
+			if 'update' in dir(c):
+				c.update()
 
 	def receive_message(self, message):
-		print self.char + " received message: " + message
+		pass
 
-	#def add_component(self, component):
+	def add_component(self, component):
+		self.components[component.name.lower()] = component
+		component.owner = self
+
+	def get_component(self, component_name):
+		"""Return the component if it exists,
+		else None. Ignores string case"""
+		return self.components.get(component_name.lower(), None)
+
+	def remove_component(self, component_name):
+		"""Remove the component if it exists,
+		ignores string case"""
+		name = component_name.lower()
+		if self.get_component(name):
+			del self.components[name]

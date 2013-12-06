@@ -1,8 +1,11 @@
 import libtcodpy as lbt
 from renderer import Renderer
+from input_system import InputSystem
 from message_system import MessageSystem
+from screen import PlayScreen, StartScreen
+from world import World
 
-class Game:
+class Game(object):
 	def __init__(self, name, author=None, screen_width=80, screen_height=50,
 				 fps=60):
 		self.name = name
@@ -22,10 +25,17 @@ class Game:
 		# Initialization of renderer
 		self.renderer = Renderer(self.con)
 
+		# Initialization of input
+		self.input_system = InputSystem()
+
 		# List of game objects (entities)
 		self.entities = []
 
 		self.player = None
+
+		# Screens
+		self.screen = StartScreen(self)
+
 
 	def add_entity(self, entity, is_player=False, add_as_message_receiver=True):
 		self.entities.append(entity)
@@ -39,13 +49,14 @@ class Game:
 			self.player = entity
 
 	def update(self):
-		mouse = lbt.Mouse()
-		key = lbt.Key()
-		lbt.sys_check_for_event(lbt.EVENT_KEY_PRESS|lbt.EVENT_MOUSE, key, mouse)
+		# get new input
+		self.input_system.update()
+		self.screen.handle_input()
 
-		if not key.vk == lbt.KEY_NONE:
-			pass
+		#if not self.input_system.key.vk == lbt.KEY_NONE:
+		#	self.message_system.send_message(str(self.input_system.key.vk))
 		
+		self.message_system.send_message("hey")
 		self.message_system.propagate_messages()
 		
 		# update entities
@@ -55,14 +66,32 @@ class Game:
 	def draw(self):
 		lbt.console_clear(self.con)
 
-		for e in self.entities:
-			e.draw(self.con)
+		self.screen.draw(self.con)
 
 		lbt.console_blit(self.con, 0, 0, self.screen_width, 
 					 self.screen_height, 0, 0, 0)
 		lbt.console_flush()
 
 	def start(self):
+		self.draw() # initial draw!
 		while not lbt.console_is_window_closed():
 			self.update()
 			self.draw()
+
+	def is_blocked(self, x, y):
+		
+		if not self.in_bounds(x, y):
+			return True
+
+		if self.entity_at(x, y):
+			return True
+
+		return False
+
+	def in_bounds(self, x, y):
+		return x < self.screen_width and x >= 0 and y < self.screen_height and y >= 0
+
+	def entity_at(self, x, y):
+		for e in self.entities:
+			if e.x == x and e.y == y:
+				return e

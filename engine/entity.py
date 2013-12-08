@@ -31,6 +31,13 @@ class Entity(object):
 		else None. Ignores string case"""
 		return self.components.get(component_name.lower(), None)
 
+	def set_component(self, component_name, component):
+		if not self.get_component(component_name):
+			print "No component '" + component_name + "' found"
+		else:
+			self.components[component_name.lower()] = component
+			component.owner = self
+
 	def remove_component(self, component_name):
 		"""Remove the component if it exists,
 		ignores string case"""

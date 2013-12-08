@@ -15,8 +15,8 @@ class PlayerAi(AI):
 	def update(self):
 		#print self.owner.name + " is thinking.."
 		key = self.owner.game.input_system.key
+		move_controller = self.owner.get_component('controller')
 		dx, dy = 0, 0
-
 		key_char = chr(key.c)
 
 		if key_char == 's':
@@ -28,7 +28,11 @@ class PlayerAi(AI):
 		elif key_char == 'a':
 			dx = -1
 
-		self.owner.get_component('controller').move(dx, dy)
+		elif key_char == 'r':
+			move_controller.rest()
+
+		if not (dx == 0 and dy == 0):
+			move_controller.move(dx, dy)
 
 class RandomAi(AI):
 	"""Randomly wanders around"""

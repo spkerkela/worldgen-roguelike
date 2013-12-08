@@ -1,9 +1,11 @@
 import libtcodpy as lbt
+import gui
 from world import World
 from entity import Entity
 from stats import Stats
 from movement_controller import MovementController
 from ai import PlayerAi, SimpleFollowAi
+import generators.world_generator as worldgen
 import copy
 import random
 
@@ -53,7 +55,8 @@ class PlayScreen(Screen):
 		super(PlayScreen, self).__init__(game)
 		self.screen_width = width
 		self.screen_height = height
-		self.world = World(width * 2, height * 2, 2)
+		#self.world = worldgen.create_empty_world(width * 2, height * 2, 1)
+		self.world = worldgen.create_cavernous_world(width * 2, height * 2, 1)
 		self.world.screen = self
 		self.w_console = lbt.console_new(self.screen_width, self.screen_height)
 		self.game = game
@@ -61,7 +64,7 @@ class PlayScreen(Screen):
 
 	def add_entities(self):
 
-		base_stats = Stats("stats", 100, 80, 5, 6, 7)
+		base_stats = Stats("stats", 100, 80, 5, 6, 7, 10)
 		
 		player = Entity(int(self.world.width / 2),
                 int(self.world.height / 2), 0,
@@ -100,18 +103,7 @@ class PlayScreen(Screen):
 	def draw(self, con):
 		lbt.console_clear(self.w_console)
 		lbt.console_print_frame(con, 0, 0, self.screen_width+2, self.screen_height+2, fmt="Game world")
-
-		# Print stats
-		player = self.world.player
-		stats = player.get_component('stats')
-		stats_y = self.screen_height + 3
-		lbt.console_print(con, 1, stats_y, player.name.capitalize())
-		lbt.console_print(con, 1, stats_y + 1, "HP : " + str(stats.cur_hp))
-		lbt.console_print(con, 1, stats_y + 2, "MP : " + str(stats.cur_mana))
-		lbt.console_print(con, 1, stats_y + 3, "Strength : " + str(stats.strength))
-		lbt.console_print(con, 1, stats_y + 4, "Intellect : " + str(stats.intellect))
-		lbt.console_print(con, 1, stats_y + 5, "Agility : " + str(stats.agility))
-
+		self.draw_gui(con)
 		self.draw_world(self.get_scroll_x(), self.get_scroll_y())
 
 		if self.subscreen:
@@ -133,3 +125,8 @@ class PlayScreen(Screen):
 										self.world.char_at(wx, wy, 0),
 										self.world.color_at(wx, wy, 0),
 										lbt.black)
+
+	def draw_gui(self, con):
+		plr = self.world.player
+		gui.print_entity_stats(con, plr, 1, self.screen_height + 3)
+		gui.print_location_info(con, 20, self.screen_height + 3, self.world.tile_at(plr.x, plr.y, plr.z))

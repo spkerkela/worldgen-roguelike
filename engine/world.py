@@ -2,12 +2,18 @@ import libtcodpy as lbt
 import random
 class Tile(object):
 	"""Tiles are the terrain that entities walk on"""
-	def __init__(self, char, blocks = False, blocks_sight = False, color=lbt.dark_green):
+	def __init__(self, chars, name, blocks = False, blocks_sight = False, color=lbt.dark_green):
 		self.blocks = blocks
 		self.blocks_sight = blocks_sight
-		self.char = char
+		self.char = random.choice(chars)
 		self.color = color
-		
+		self.name = name
+
+Tiletypes = {
+	'floor' : Tile(['.',',','`'], 'floor', color=lbt.darkest_grey),
+	'wall' : Tile(['#'], 'wall', blocks=True, blocks_sight=True, color=lbt.dark_grey),
+	'water' : Tile(['~'], 'water', blocks=True, color=lbt.blue)
+}
 
 class World(object):
 	"""The world object contains all entities and items and map info"""
@@ -15,16 +21,15 @@ class World(object):
 		self.width = width
 		self.height = height
 		self.depth = depth
-		# random.choice(['.','#',',','='])
-		self.tiles = [[[Tile(random.choice(['.',',','`'])) for _ in xrange(width)]
-		for _ in xrange(height)] for _ in xrange(depth)]
-		
 		# entities
 		self.player = None
 		self.entities = []
 
 	def tile_at(self, x, y, z):
 		return self.tiles[z][y][x]
+
+	def set_tile_at(self, x, y, z, tile):
+		self.tiles[z][y][x] = tile
 
 	def is_blocked(self, x, y, z):
 		if not self.in_bounds(x, y, z):
@@ -72,3 +77,18 @@ class World(object):
 
 		if add_as_message_receiver:
 			self.screen.game.message_system.register(entity)
+
+	def neighbors8(self, x, y, z):
+		neighbors = []
+		for xs in xrange(-1,2):
+			for ys in xrange(-1,2):
+				summed_x = x + xs
+				summed_y = y + ys
+				if summed_x == x and summed_y == y:
+					pass
+				elif summed_x < 0 or summed_x >= self.width or summed_y < 0 or summed_y >= self.height:
+					pass
+				else:
+					neighbors.append(self.tile_at(summed_x, summed_y, z))
+		# print len(neighbors)
+		return neighbors

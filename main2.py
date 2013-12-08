@@ -6,6 +6,7 @@ from engine.generators.name_generator import NameGenerator
 from engine.util_components import TickerComponent, CounterComponent
 from engine.ai import PlayerAi, RandomAi, SimpleFollowAi
 from engine.stats import Stats
+import engine.generators.world_generator
 import copy
 import random
 

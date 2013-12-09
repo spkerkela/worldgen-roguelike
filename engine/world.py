@@ -24,12 +24,14 @@ class World(object):
 		# entities
 		self.player = None
 		self.entities = []
+		self.fov_map = lbt.map_new(width, height)
 
 	def tile_at(self, x, y, z):
 		return self.tiles[z][y][x]
 
 	def set_tile_at(self, x, y, z, tile):
 		self.tiles[z][y][x] = tile
+		lbt.map_set_properties(self.fov_map, x, y, not tile.blocks_sight, not tile.blocks)
 
 	def is_blocked(self, x, y, z):
 		if not self.in_bounds(x, y, z):
@@ -92,3 +94,13 @@ class World(object):
 					neighbors.append(self.tile_at(summed_x, summed_y, z))
 		# print len(neighbors)
 		return neighbors
+
+	def update_fov(self):
+		for x in xrange(self.width):
+			for y in xrange(self.height):
+				tile = self.tile_at(x, y, self.player.z)
+				lbt.map_set_properties(self.fov_map, x, y, not tile.blocks_sight, not tile.blocks)
+
+	def compute_fov(self):
+		p = self.player
+		lbt.map_compute_fov(self.fov_map, p.x, p.y, 10)

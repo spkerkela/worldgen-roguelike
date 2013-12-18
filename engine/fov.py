@@ -9,7 +9,8 @@ class FovComponent(Component):
     def initialize(self):
         self.world = self.owner.world
         self.fov_map = self.world.fov_map
-        self.visible = [[False for _ in xrange(self.world.height)] for _ in xrange(self.world.width)]
+        self.visible = [[False for _ in xrange(self.world.height)] 
+                        for _ in xrange(self.world.width)]
 
     def can_see(self, x, y, z):
         e = self.owner

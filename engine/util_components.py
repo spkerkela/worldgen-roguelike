@@ -33,7 +33,10 @@ class CounterComponent(Component):
 
         ascending = self.increment_amount > 0
 
-        if (ascending and self.current_value >= self.end_value) or (not ascending and self.current_value <= self.end_value):
+        if ((ascending and 
+             self.current_value >= self.end_value) or
+            (not ascending and
+             self.current_value <= self.end_value)):
             # Stop incrementing when goal reached
             self.increment_amount = 0
             if self.callback:

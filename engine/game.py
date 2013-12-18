@@ -6,7 +6,11 @@ from screen import PlayScreen, StartScreen
 from world import World
 
 class Game(object):
-    def __init__(self, name, author=None, screen_width=80, screen_height=50,
+    def __init__(self, 
+                 name,
+                 author=None, 
+                 screen_width=80,
+                 screen_height=50,
                  fps=60):
         self.name = name
         self.author = author
@@ -18,8 +22,12 @@ class Game(object):
         self.message_system = MessageSystem()
 
         # Initialization of libtcod here
-        lbt.console_init_root(self.screen_width,self.screen_height, self.name, False)
-        self.con = lbt.console_new(self.screen_width, self.screen_height)
+        lbt.console_init_root(self.screen_width,
+                              self.screen_height,
+                              self.name, 
+                              False)
+        self.con = lbt.console_new(self.screen_width,
+                                   self.screen_height)
         lbt.sys_set_fps(self.fps)
 
         # Initialization of renderer
@@ -37,7 +45,10 @@ class Game(object):
         self.screen = StartScreen(self)
 
 
-    def add_entity(self, entity, is_player=False, add_as_message_receiver=True):
+    def add_entity(self,
+                   entity,
+                   is_player=False,
+                   add_as_message_receiver=True):
         self.entities.append(entity)
         if add_as_message_receiver:
             self.message_system.register(entity)
@@ -53,9 +64,6 @@ class Game(object):
         self.input_system.update()
         self.screen.handle_input()
 
-        #if not self.input_system.key.vk == lbt.KEY_NONE:
-        #    self.message_system.send_message(str(self.input_system.key.vk))
-        
         self.message_system.send_message("hey")
         self.message_system.propagate_messages()
         
@@ -89,7 +97,10 @@ class Game(object):
         return False
 
     def in_bounds(self, x, y):
-        return x < self.screen_width and x >= 0 and y < self.screen_height and y >= 0
+        return (x < self.screen_width and
+                x >= 0 and
+                y < self.screen_height and
+                y >= 0)
 
     def entity_at(self, x, y):
         for e in self.entities:

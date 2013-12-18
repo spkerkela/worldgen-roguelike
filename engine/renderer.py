@@ -5,4 +5,7 @@ class Renderer(object):
         self.console = console
 
     def draw_entity(self, entity):
-        lbt.console_set_char(self.console, entity.x, entity.y, entity.char)
+        lbt.console_set_char(self.console,
+                             entity.x,
+                             entity.y,
+                             entity.char)

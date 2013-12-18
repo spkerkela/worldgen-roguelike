@@ -18,14 +18,23 @@ elements = [
     "earth","electricity","death",
     "life"]
 
-class GodGenerator:
+class GodGenerator(object):
     def __init__(self, godnames_key):
-        self.name_generator = NameGenerator(godnames_dict[godnames_key])
+        self.name_generator = NameGenerator('seednames/' + 
+                                            godnames_dict[godnames_key])
 
     def new_god(self):
         name = self.name_generator.new_name()
         powers = random.sample(elements, 3)
-        print "All hail the new god " + name + ", who wields the power of " + powers[0] +", " + powers[1] +" and " + powers[2] + "!"
+        description = "All hail the new god {}," \
+                      "who wields the power of {} and {}!".format(name,
+                                                                powers[1],
+                                                                powers[2])
+        
+        #print "All hail the new god " + name + ", who wields the
+        #power of " + powers[0] +", " + powers[1] +" and " + powers[2]
+        #+ "!"
+        print description
 
 if __name__ == '__main__':
     gg = GodGenerator("roman")

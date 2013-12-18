@@ -5,7 +5,7 @@ import random
 def create_empty_world(width, height, depth, tiletype='grass'):
     world = World(width, height, depth)
     world.tiles = [[[Tiletypes[tiletype] for _ in xrange(width)]
-        for _ in xrange(height)] for _ in xrange(depth)]
+                    for _ in xrange(height)] for _ in xrange(depth)]
     return world
 
 def create_cavernous_world(width, height, depth):
@@ -16,8 +16,10 @@ def create_cavernous_world(width, height, depth):
                 randnum = random.random()
                 if randnum < 0.4:
                     world.tiles[z][y][x] = Tiletypes['floor']
-                else:
+                elif randnum < 0.8:
                     world.tiles[z][y][x] = Tiletypes['wall']
+                else:
+                    world.tiles[z][y][x] = Tiletypes['impassable_wall']
 
     for x in xrange(1,3):
         world = cellular_automata(world)

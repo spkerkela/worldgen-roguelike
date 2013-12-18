@@ -1,4 +1,5 @@
 import libtcodpy as lbt
+from item import Item
 
 class Entity(object):
     """This is a generic game-entity: the player,
@@ -12,6 +13,7 @@ class Entity(object):
         self.components = {}
         self.count = 10
         self.color = color
+        self.effects = []
 
     def update(self):
         # Update components if they have update
@@ -44,3 +46,6 @@ class Entity(object):
         name = component_name.lower()
         if self.get_component(name):
             del self.components[name]
+    
+    def apply_effect(self, effect):
+        self.effects.append(effect)

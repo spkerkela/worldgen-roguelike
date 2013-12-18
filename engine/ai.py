@@ -27,7 +27,8 @@ class PlayerAi(AI):
             dx = 1
         elif key_char == 'a':
             dx = -1
-
+        elif key_char == 'g':
+            move_controller.grab()
         elif key_char == 'r':
             move_controller.rest()
 
@@ -51,15 +52,24 @@ class SimpleFollowAi(AI):
 
     def update(self):
         player = self.owner.world.player
+        mc = self.owner.get_component("controller")
+        stats = self.owner.get_component("stats")
+        
+        if stats.cur_energy <= 0:
+            mc.rest()
+        else:
+            self.hunt(player)
+    
+    def hunt(self, target):
         dx = 0
         dy = 0
-        if self.owner.x > player.x:
+        if self.owner.x > target.x:
             dx = -1
-        elif self.owner.x < player.x:
+        elif self.owner.x < target.x:
             dx = 1
-        if self.owner.y > player.y:
+        if self.owner.y > target.y:
             dy = -1
-        elif self.owner.y < player.y:
+        elif self.owner.y < target.y:
             dy = 1
 
         self.owner.get_component('controller').move(dx, dy)

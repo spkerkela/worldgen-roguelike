@@ -39,7 +39,8 @@ def print_inventory(con, entity, x, y):
         item = inventory.items[i]
         ichar = item.char
         iname = item.name
-        line = copy.deepcopy("{} {} {}".format(i+1, ichar, iname))
+        line = "{} {} {}".format(i+1, ichar, iname)
+        print line
         lbt.console_print(con,
                           x,
                           y + i + 1,

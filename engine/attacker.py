@@ -13,8 +13,8 @@ class AttackComponent(Component):
         else:
             print "{} attacks {}".format(self.owner.name,
                                          target.name)
-            print "attack", "defense"
-            print self.attack_value, destructible.defense
+            #print "attack", "defense"
+            #print self.attack_value, destructible.defense
             damage = max(self.attack_value - destructible.defense,
                          0)
             destructible.take_damage(damage)

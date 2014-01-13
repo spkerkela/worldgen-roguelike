@@ -21,7 +21,6 @@ class DestructibleComponent(Component):
     def die(self):
         world = self.owner.world
         if not self.owner == world.player:
-
             corpse = Item("{} corpse".format(self.owner.name),
                           '%',
                           color=lbt.red)

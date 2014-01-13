@@ -11,7 +11,8 @@ class TickerComponent(Component):
 
 class CounterComponent(Component):
     """A counter that starts at init_value (default 0)
-    and increments or decrements to end_value by increment_amount (default 1)
+    and increments or decrements to end_value by
+    increment_amount (default 1)
     every update. An optional callback is called when
     end_value is reached"""
     
@@ -29,7 +30,7 @@ class CounterComponent(Component):
 
     def update(self):
         self.current_value = self.current_value + self.increment_amount
-        print self.current_value
+    #   print self.current_value
 
         ascending = self.increment_amount > 0
 

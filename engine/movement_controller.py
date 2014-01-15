@@ -32,9 +32,12 @@ class MovementController(Component):
     def dig(self, x, y, z):
         world = self.owner.world
         stats = self.owner.get_component('stats')
+        
+        if not world.in_bounds(x, y, z):
+            return
+        
         tile = world.tile_at(x,y,z)
-        if (world.in_bounds(x, y, z) and
-            tile.blocks and
+        if (tile.blocks and
             tile.diggable and 
             stats.cur_energy > 0):
             world.set_tile_at(x,y,z, Tiletypes['floor'])

@@ -35,13 +35,18 @@ def print_inventory(con, entity, x, y):
     name = string_utils.genetive(entity.name.capitalize())
     lbt.console_print(con, x, y,
                       "{} inventory".format(name))
+    lines = []
     for i in xrange(len(inventory.items)):
         item = inventory.items[i]
         ichar = item.char
         iname = item.name
-        line = "{} {} {}".format(i+1, ichar, iname)
-        print line
+        if ichar == '%':
+            ichar = "%%"
+        line = '{} {} {}'.format(i+1, ichar, iname)
+        lines.append(line)
+    
+    for i in xrange(len(lines)):
         lbt.console_print(con,
                           x,
                           y + i + 1,
-                          line)
+                          lines[i])

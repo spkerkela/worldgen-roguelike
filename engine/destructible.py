@@ -22,7 +22,7 @@ class DestructibleComponent(Component):
         world = self.owner.world
         if not self.owner == world.player:
             corpse = Item("{} corpse".format(self.owner.name),
-                          '%',
+                          chr(37),
                           color=lbt.red)
             world.add_item(corpse, 
                            self.owner.x,

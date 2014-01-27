@@ -2,6 +2,8 @@ import libtcodpy as lbt
 import string_utils
 import copy
 
+screen_messages = []
+
 def print_entity_stats(con, entity, x, y):
     stats = entity.get_component('stats')
     if not stats:
@@ -50,3 +52,19 @@ def print_inventory(con, entity, x, y):
                           x,
                           y + i + 1,
                           lines[i])
+
+def print_messages(con, x, y):
+    global screen_messages
+    lbt.console_print(con,
+                      x, 
+                      y,
+                      "Messages: ")
+    for i in xrange(len(screen_messages)):
+        lbt.console_print(con,
+                          x,
+                          i+y+1,
+                          screen_messages[i])
+    screen_messages = []
+
+def message(msg):
+    screen_messages.append(msg)

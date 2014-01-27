@@ -1,5 +1,5 @@
 from component import Component
-
+import gui
 class AttackComponent(Component):
     
     def __init__(self, name, attack):
@@ -11,8 +11,9 @@ class AttackComponent(Component):
         if not destructible:
             return
         else:
-            print "{} attacks {}".format(self.owner.name,
+            msg = "{} attacks {}".format(self.owner.name,
                                          target.name)
+            gui.message(msg)
             #print "attack", "defense"
             #print self.attack_value, destructible.defense
             damage = max(self.attack_value - destructible.defense,

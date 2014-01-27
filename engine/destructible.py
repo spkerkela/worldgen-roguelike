@@ -2,6 +2,7 @@ import libtcodpy as lbt
 from component import Component
 from item import Item
 import copy
+import gui 
 class DestructibleComponent(Component):
     
     def __init__(self, name, defense):
@@ -10,13 +11,14 @@ class DestructibleComponent(Component):
     def take_damage(self, amount):
         stats = self.owner.get_component("stats")
         if amount > 0:
-            print "{} takes {} damage".format(self.owner.name,
+            msg = "{} takes {} damage".format(self.owner.name,
                                           amount)
             stats.cur_hp -= amount
             if stats.cur_hp <= 0:
                 self.die()
         else:
-            print "{} shrugs the attack off".format(self.owner.name)
+            msg = "{} shrugs the attack off".format(self.owner.name)
+        gui.message(msg)
 
     def die(self):
         world = self.owner.world

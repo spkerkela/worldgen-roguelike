@@ -183,3 +183,4 @@ class PlayScreen(Screen):
                                                    plr.y,
                                                    plr.z))
         gui.print_inventory(con, plr, self.screen_width + 2, 1)
+        gui.print_messages(con, self.screen_width + 2, 30)
